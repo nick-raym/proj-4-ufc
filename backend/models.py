@@ -23,7 +23,7 @@ class Fighter(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     # price = db.Column(db.Integer, nullable=False)
-    matches = db.relationship("Match", back_populates="fighters")
+    matches = db.relationship("Match", secondary="fighter_match_table", back_populates="fighters")
 
 class Event(db.Model, SerializerMixin):
     __tablename__ = "event_table"
@@ -31,10 +31,16 @@ class Event(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     location = db.Column(db.String, nullable=False)
     event_num=db.Column(db.String, nullable=False)
-    match_id = db.Column(db.Integer, db.ForeignKey("match_table.id"))
+    #### match_id = db.Column(db.Integer, db.ForeignKey("match_table.id"))
     # part_id = db.Column(db.Integer, db.ForeignKey("part_table.id"))
     event_matches = db.relationship("Match",back_populates="event")
     # part = db.relationship("Part",back_populates="order_parts")
+
+class Fighter_Match(db.Model, SerializerMixin):
+    __tablename__ = "fighter_match_table"
+    
+    match_id = db.Column(db.Integer, db.ForeignKey("match_table.id"), primary_key=True)
+    fighter_id = db.Column(db.Integer, db.ForeignKey("fighter_table.id"), primary_key=True)
 
 
 class Match(db.Model, SerializerMixin):
@@ -42,10 +48,8 @@ class Match(db.Model, SerializerMixin):
     # serialize_rules= ['-order_parts.order','-customer.orders']
     id = db.Column(db.Integer, primary_key=True)
     event_id = db.Column(db.Integer, db.ForeignKey("event_table.id"))
-    fighter_id = db.Column(db.Integer, db.ForeignKey("fighter_table.id"))
-    
     event = db.relationship("Event", back_populates="event_matches")
-    fighters = db.relationship("Fighter", back_populates="matches")
+    fighters = db.relationship("Fighter", secondary="fighter_match_table", back_populates="matches")
     comments=db.relationship("Comment",back_populates="matches")
     # event relationship one
 
@@ -65,9 +69,10 @@ class Comment(db.Model, SerializerMixin):
     serialize_rules = ["-match.comments", '-user.comments']
     # canvas serialize_rules = ('-restaurant.reviews',)
     id = db.Column(db.Integer, primary_key=True)
-    rating = db.Column(db.Integer)
+    # rating = db.Column(db.Integer)
     review = db.Column(db.String)
     reviewer_id = db.Column(db.Integer, db.ForeignKey("user_table.id"))
+    match_id = db.Column(db.Integer, db.ForeignKey("match_table.id"))
 
     user = db.relationship("User", back_populates="comments")
     matches = db.relationship("Match", back_populates="comments")
