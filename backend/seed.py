@@ -1,5 +1,5 @@
 from app import app
-from models import db, Fighter, Event, Match,User,Comment
+from models import db, Fighter, Event, Match, User, Comment
 from faker import Faker
 from random import randint, choice, choices, uniform
 # import requests
@@ -29,10 +29,14 @@ if __name__ == "__main__":
         db.session.add_all(event_list)
         db.session.commit()
 
-        match_list=[]
+        match_list = []
         for _ in range(15):
-            m=Match(fighter_1_name=str(choice(fighter_list).name), fighter_2_name=str(choice(fighter_list).name))
-            match_list.append(m)
+            fighter_1 = choice(fighter_list)
+            fighter_2 = choice(fighter_list)
+            while(fighter_1==fighter_2):
+                fighter_2 = choice(fighter_list)
+        m = Match(fighter_1=fighter_1, fighter_2=fighter_2)
+        match_list.append(m)
         db.session.add_all(match_list)
         db.session.commit()
 
