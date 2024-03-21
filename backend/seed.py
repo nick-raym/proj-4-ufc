@@ -35,8 +35,9 @@ if __name__ == "__main__":
             fighter_2 = choice(fighter_list)
             while(fighter_1==fighter_2):
                 fighter_2 = choice(fighter_list)
-        m = Match(fighter1_id=fighter_1.id, fighter2_id=fighter_2.id)
-        match_list.append(m)
+            event_choice = choice(event_list)
+            m = Match(fighter1_id=fighter_1.id, fighter2_id=fighter_2.id, event_id = event_choice.id)
+            match_list.append(m)
         db.session.add_all(match_list)
         db.session.commit()
 
