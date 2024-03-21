@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: cb18f79c0a9e
+Revision ID: a1215b81a7d5
 Revises: 
-Create Date: 2024-03-21 13:42:37.005946
+Create Date: 2024-03-21 14:43:52.470970
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'cb18f79c0a9e'
+revision = 'a1215b81a7d5'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -27,6 +27,23 @@ def upgrade():
     op.create_table('fighter_table',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(), nullable=False),
+    sa.Column('nickname', sa.String(), nullable=True),
+    sa.Column('wins', sa.Integer(), nullable=False),
+    sa.Column('losses', sa.Integer(), nullable=False),
+    sa.Column('draws', sa.Integer(), nullable=False),
+    sa.Column('height_cm', sa.Float(), nullable=True),
+    sa.Column('weight_in_kg', sa.Float(), nullable=True),
+    sa.Column('reach_in_cm', sa.Float(), nullable=True),
+    sa.Column('stance', sa.String(), nullable=True),
+    sa.Column('date_of_birth', sa.String(), nullable=True),
+    sa.Column('significant_strikes_landed_per_minute', sa.Float(), nullable=True),
+    sa.Column('significant_striking_accuracy', sa.Float(), nullable=True),
+    sa.Column('significant_strikes_absorbed_per_minute', sa.Float(), nullable=True),
+    sa.Column('significant_strike_defence', sa.Float(), nullable=True),
+    sa.Column('average_takedowns_landed_per_15_minutes', sa.Float(), nullable=True),
+    sa.Column('takedown_accuracy', sa.Float(), nullable=True),
+    sa.Column('takedown_defense', sa.Float(), nullable=True),
+    sa.Column('average_submissions_attempted_per_15_minutes', sa.Float(), nullable=True),
     sa.PrimaryKeyConstraint('id', name=op.f('pk_fighter_table'))
     )
     op.create_table('user_table',

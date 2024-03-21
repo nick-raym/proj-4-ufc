@@ -22,8 +22,25 @@ class Fighter(db.Model, SerializerMixin):
     # serialize_rules= ['-order_parts.part']
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
-    # price = db.Column(db.Integer, nullable=False)
-    # matches = db.relationship("Match", secondary="fighter_match_table", back_populates="fighters")
+    nickname = db.Column(db.String,nullable=True)
+    wins = db.Column(db.Integer, nullable=False)
+    losses = db.Column(db.Integer, nullable=False)
+    draws = db.Column(db.Integer, nullable=False)
+
+    height_cm = db.Column(db.Float, nullable=True)
+    weight_in_kg = db.Column(db.Float, nullable=True)
+    reach_in_cm = db.Column(db.Float, nullable=True)
+
+    stance = db.Column(db.String, nullable=True)
+    date_of_birth = db.Column(db.String, nullable=True)
+    significant_strikes_landed_per_minute = db.Column(db.Float, nullable=True)
+    significant_striking_accuracy = db.Column(db.Float, nullable=True)
+    significant_strikes_absorbed_per_minute = db.Column(db.Float, nullable=True)
+    significant_strike_defence = db.Column(db.Float, nullable=True)
+    average_takedowns_landed_per_15_minutes = db.Column(db.Float, nullable=True)
+    takedown_accuracy = db.Column(db.Float, nullable=True)
+    takedown_defense = db.Column(db.Float, nullable=True)
+    average_submissions_attempted_per_15_minutes = db.Column(db.Float, nullable=True)
 
 class Event(db.Model, SerializerMixin):
     __tablename__ = "event_table"
